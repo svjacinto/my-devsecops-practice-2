@@ -59,6 +59,7 @@ pipeline {
             semgrep/semgrep:latest semgrep scan \
             --config=p/owasp-top-ten \
             --config=p/secrets \
+            --no-git-ignore \
             --error /src
         '''
       }

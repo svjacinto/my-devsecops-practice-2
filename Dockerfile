@@ -2,12 +2,10 @@ FROM node:22-alpine3.23
 
 WORKDIR /app
 
-ENV NODE_ENV=production
-
 RUN apk update && apk upgrade --no-cache
 
 COPY package*.json ./
-RUN npm ci --omit=dev
+RUN npm install --omit=dev
 
 COPY . .
 

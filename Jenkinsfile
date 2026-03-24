@@ -13,39 +13,26 @@ pipeline {
   stages {
     stage('Checkout') {
       steps {
+        deleteDir()
         checkout scm
-      }
-    }
-
-    stage('Debug Workspace') {
-      steps {
         sh '''
-          echo "Current directory:"
+          echo "PWD:"
           pwd
 
           echo "Workspace files:"
           ls -la
 
-          echo "Check .gitleaks.toml:"
+          echo "Tracked files:"
+          git ls-files || true
+
+          echo "Current commit:"
+          git rev-parse HEAD || true
+
           if [ -f .gitleaks.toml ]; then
             echo ".gitleaks.toml exists"
             cat .gitleaks.toml
           else
             echo ".gitleaks.toml is missing"
-          fi
-
-          echo "Check checkov.yaml:"
-          if [ -f checkov.yaml ]; then
-            echo "checkov.yaml exists"
-          else
-            echo "checkov.yaml is missing"
-          fi
-
-          echo "Check Dockerfile:"
-          if [ -f Dockerfile ]; then
-            echo "Dockerfile exists"
-          else
-            echo "Dockerfile is missing"
           fi
         '''
       }
@@ -55,11 +42,10 @@ pipeline {
       steps {
         sh '''
           docker run --rm \
-            -v "$PWD:/repo" \
+            -v "$WORKSPACE:/repo" \
             zricethezav/gitleaks:latest detect \
             --no-git \
             --source=/repo \
-            --config=/repo/.gitleaks.toml \
             --exit-code 1
         '''
       }
@@ -69,7 +55,7 @@ pipeline {
       steps {
         sh '''
           docker run --rm \
-            -v "$PWD:/src" \
+            -v "$WORKSPACE:/src" \
             semgrep/semgrep:latest semgrep scan \
             --config=p/owasp-top-ten \
             --config=p/secrets \
@@ -82,7 +68,7 @@ pipeline {
       steps {
         sh '''
           docker run --rm \
-            -v "$PWD:/tf" \
+            -v "$WORKSPACE:/tf" \
             bridgecrew/checkov:latest \
             -d /tf --config-file /tf/checkov.yaml
         '''

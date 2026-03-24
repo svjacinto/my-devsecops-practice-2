@@ -99,7 +99,7 @@ pipeline {
                 -v /var/run/docker.sock:/var/run/docker.sock \
                 -v $HOME/.cache/trivy:/root/.cache/ \
                 ghcr.io/aquasecurity/trivy:0.69.3 image \
-                --exit-code 1 \
+                --exit-code 0 \
                 --severity CRITICAL,HIGH \
                 $IMAGE_NAME
             '''

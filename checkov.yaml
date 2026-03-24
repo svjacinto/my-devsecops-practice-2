@@ -1,0 +1,9 @@
+framework:
+  - dockerfile
+
+hard-fail-on:
+  - HIGH
+  - CRITICAL
+
+soft-fail-on:
+  - MEDIUM

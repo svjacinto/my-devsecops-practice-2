@@ -1,0 +1,8 @@
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Allow example values"
+regexes = [
+  "example|placeholder|YOUR_KEY_HERE|REPLACE_ME"
+]

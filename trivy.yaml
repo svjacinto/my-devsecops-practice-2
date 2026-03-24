@@ -1,0 +1,8 @@
+vulnerability:
+  ignore-unfixed: false
+  severity: [CRITICAL, HIGH]
+
+misconfiguration:
+  include-non-failures: false
+
+exit-code: 1

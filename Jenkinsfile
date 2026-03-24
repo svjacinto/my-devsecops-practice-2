@@ -65,14 +65,14 @@ pipeline {
     }
 
     stage('IaC / Dockerfile Scan - Checkov') {
-      steps {
-        sh '''
-          docker run --rm \
-            -v "$WORKSPACE:/tf" \
-            bridgecrew/checkov:latest \
-            -d /tf --config-file /tf/checkov.yaml
-        '''
-      }
+    steps {
+            sh '''
+                docker run --rm \
+                    -v "$WORKSPACE:/tf" \
+                    bridgecrew/checkov:latest \
+                    -d /tf
+            '''
+        }
     }
 
     stage('Dockerfile Lint - Hadolint') {

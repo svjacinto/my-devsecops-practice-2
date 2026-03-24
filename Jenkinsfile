@@ -92,16 +92,17 @@ pipeline {
     }
 
     stage('Container Scan - Trivy') {
-      steps {
-        sh '''
-          docker run --rm \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            aquasec/trivy:latest image \
-            --exit-code 1 \
-            --severity CRITICAL,HIGH \
-            $IMAGE_NAME
-        '''
-      }
+        steps {
+            sh '''
+            docker run --rm \
+                -v /var/run/docker.sock:/var/run/docker.sock \
+                -v $HOME/.cache/trivy:/root/.cache/ \
+                ghcr.io/aquasecurity/trivy:0.69.3 image \
+                --exit-code 1 \
+                --severity CRITICAL,HIGH \
+                $IMAGE_NAME
+            '''
+        }
     }
   }
 

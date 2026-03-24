@@ -1,8 +1,10 @@
+title = "Gitleaks config"
+
 [extend]
 useDefault = true
 
-[allowlist]
+[[allowlists]]
 description = "Allow example values"
 regexes = [
-  "example|placeholder|YOUR_KEY_HERE|REPLACE_ME"
+  '''example|placeholder|YOUR_KEY_HERE|REPLACE_ME'''
 ]
